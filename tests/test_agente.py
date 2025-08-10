@@ -1,13 +1,16 @@
 # tests/test_agente.py (apenas o helper atualizado)
-import types
+import builtins
 import importlib
 import sys
-import builtins
+import types
+
 import pytest
 
+
 def _load_agente_with_fake_client(monkeypatch, fake_envia=None):
-   
+
     if fake_envia is None:
+
         def fake_envia(_):
             return []
 
@@ -24,22 +27,23 @@ def _load_agente_with_fake_client(monkeypatch, fake_envia=None):
     return agente
 
 
-
 def test_exibir_resultados_formato(monkeypatch, capsys):
     agente = _load_agente_with_fake_client(monkeypatch)
 
-    veiculos = [{
-        "id": 1,
-        "marca": "Jeep",
-        "modelo": "Alpha",
-        "ano": 2021,
-        "cor": "Azul",
-        "quilometragem": 12345.6,
-        "preco": 98765.43,
-        "tipo_combustivel": "Etanol",
-        "numero_portas": 4,
-        "transmissao": "Automático",
-    }]
+    veiculos = [
+        {
+            "id": 1,
+            "marca": "Jeep",
+            "modelo": "Alpha",
+            "ano": 2021,
+            "cor": "Azul",
+            "quilometragem": 12345.6,
+            "preco": 98765.43,
+            "tipo_combustivel": "Etanol",
+            "numero_portas": 4,
+            "transmissao": "Automático",
+        }
+    ]
 
     agente.exibir_resultados(veiculos)
     out = capsys.readouterr().out
@@ -62,18 +66,20 @@ def test_exibir_resultados_sem_itens(monkeypatch, capsys):
 def test_exibir_listagem_completa(monkeypatch, capsys):
     agente = _load_agente_with_fake_client(monkeypatch)
 
-    veiculos = [{
-        "id": 7,
-        "marca": "Ford",
-        "modelo": "Beta",
-        "ano": 2018,
-        "cor": "Preto",
-        "quilometragem": 5000,
-        "preco": 50000,
-        "tipo_combustivel": "Gasolina",
-        "numero_portas": 4,
-        "transmissao": "Manual",
-    }]
+    veiculos = [
+        {
+            "id": 7,
+            "marca": "Ford",
+            "modelo": "Beta",
+            "ano": 2018,
+            "cor": "Preto",
+            "quilometragem": 5000,
+            "preco": 50000,
+            "tipo_combustivel": "Gasolina",
+            "numero_portas": 4,
+            "transmissao": "Manual",
+        }
+    ]
 
     agente.exibir_listagem_completa(veiculos)
     out = capsys.readouterr().out
@@ -88,14 +94,16 @@ def test_coletar_criterios_fluxo_basico(monkeypatch):
 
     # Simula entradas do usuário na ordem:
     # marca, modelo, ano_min, ano_max, combustível, preço_max
-    entradas = iter([
-        "jeep",     # marca -> title()
-        "alp",      # modelo -> title()
-        "2020",     # ano_min -> int
-        "",         # ano_max -> ignorado
-        "etanol",   # tipo_combustivel -> title()
-        "100000",   # preco_max -> float
-    ])
+    entradas = iter(
+        [
+            "jeep",  # marca -> title()
+            "alp",  # modelo -> title()
+            "2020",  # ano_min -> int
+            "",  # ano_max -> ignorado
+            "etanol",  # tipo_combustivel -> title()
+            "100000",  # preco_max -> float
+        ]
+    )
     monkeypatch.setattr(builtins, "input", lambda *_args, **_kw: next(entradas))
 
     filtros = agente.coletar_criterios()

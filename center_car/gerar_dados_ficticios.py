@@ -1,23 +1,18 @@
 import argparse
-from random import choice, uniform, randint
+from random import choice, randint, uniform
 from typing import Final
 
 from faker import Faker
 from faker.exceptions import UniquenessException
 
-from center_car.banco_dados import obter_sessao, engine
-from center_car.modelo_veiculo import Veiculo, Base
+from center_car.banco_dados import engine, obter_sessao
+from center_car.modelo_veiculo import Base, Veiculo
 
 # Constantes de configuração
 DEFAULT_QTD: Final[int] = 100
-MARCAS: Final[list[str]] = [
-    'Ford', 'Chevrolet', 'Toyota', 'Honda',
-    'Volkswagen', 'BMW', 'Jeep', 'Jaguar'
-]
-COMBUSTIVEIS: Final[list[str]] = [
-    'Gasolina', 'Etanol', 'Diesel', 'Flex', 'Elétrico'
-]
-TRANSMISSOES: Final[list[str]] = ['Manual', 'Automática', 'CVT']
+MARCAS: Final[list[str]] = ["Ford", "Chevrolet", "Toyota", "Honda", "Volkswagen", "BMW", "Jeep", "Jaguar"]
+COMBUSTIVEIS: Final[list[str]] = ["Gasolina", "Etanol", "Diesel", "Flex", "Elétrico"]
+TRANSMISSOES: Final[list[str]] = ["Manual", "Automática", "CVT"]
 FLUSH_INTERVAL: Final[int] = 50
 
 
@@ -37,7 +32,7 @@ def popula_bd(qtd: int = DEFAULT_QTD) -> None:
       volta a nomes repetidos.
     - Faz flush a cada `FLUSH_INTERVAL` objetos para controlar uso de memória.
     """
-    faker = Faker('pt_BR')
+    faker = Faker("pt_BR")
     faker.unique.clear()
 
     # Context manager assegura commit/rollback e fechamento da sessão
@@ -75,15 +70,13 @@ def parse_args() -> int:
     """
     Lê argumentos de linha de comando para definir a quantidade de veículos.
     """
-    parser = argparse.ArgumentParser(
-        description="Gera dados fictícios de veículos no banco de dados"
-    )
+    parser = argparse.ArgumentParser(description="Gera dados fictícios de veículos no banco de dados")
     parser.add_argument(
-        'quantidade',
-        nargs='?',
+        "quantidade",
+        nargs="?",
         type=int,
         default=DEFAULT_QTD,
-        help=f'Número de veículos a inserir (padrão: {DEFAULT_QTD})'
+        help=f"Número de veículos a inserir (padrão: {DEFAULT_QTD})",
     )
     args = parser.parse_args()
     return args.quantidade

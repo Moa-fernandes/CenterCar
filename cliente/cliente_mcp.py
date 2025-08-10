@@ -1,5 +1,5 @@
-import socket
 import json
+import socket
 from typing import Any, Dict, List, Union
 
 from center_car.config import HOST, PORTA

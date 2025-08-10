@@ -3,21 +3,16 @@
 import argparse
 import threading
 import time
-from servidor.servidor_mcp import iniciar_servidor
+
 from cliente.agente_terminal import main as iniciar_agente
+from servidor.servidor_mcp import iniciar_servidor
+
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='CenterCar: servidor e/ou agente de terminal MCP')
-    parser.add_argument(
-        '--servidor', action='store_true',
-        help='Inicia apenas o servidor MCP')
-    parser.add_argument(
-        '--cliente', action='store_true',
-        help='Inicia apenas o agente de terminal')
-    parser.add_argument(
-        '--tudo', action='store_true',
-        help='Inicia servidor e agente juntos')
+    parser = argparse.ArgumentParser(description="CenterCar: servidor e/ou agente de terminal MCP")
+    parser.add_argument("--servidor", action="store_true", help="Inicia apenas o servidor MCP")
+    parser.add_argument("--cliente", action="store_true", help="Inicia apenas o agente de terminal")
+    parser.add_argument("--tudo", action="store_true", help="Inicia servidor e agente juntos")
 
     args = parser.parse_args()
 
@@ -39,5 +34,5 @@ def main():
         parser.print_help()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

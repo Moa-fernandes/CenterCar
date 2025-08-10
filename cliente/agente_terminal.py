@@ -1,5 +1,5 @@
 import sys
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 from cliente.cliente_mcp import envia_filtros
 
@@ -7,7 +7,7 @@ from cliente.cliente_mcp import envia_filtros
 WELCOME_BANNER: str = "=== CenterCar ===\n"
 INTRO_MESSAGE: str = (
     "Olá! Eu sou o CenterCar Bot e vou te ajudar a encontrar veículos.\n"
-    "Você pode pular qualquer pergunta apertando Enter, tá certo? Vamos lá?\n"
+    "Pule qualquer pergunta apertando Enter, tá certo? Vamos lá?\n"
 )
 SEPARATOR: str = "-" * 40
 
@@ -15,24 +15,15 @@ PROMPT_BRAND: str = "Qual marca você procura no momento?"
 PROMPT_MODEL: str = "E qual modelo (ou parte do nome) você tem em mente, pode nos contar?"
 PROMPT_YEAR_MIN: str = "Ano mínimo que você desejaria? (ex: 2010)?"
 PROMPT_YEAR_MAX: str = "Ano máximo que você desejaria? (ex: 2023)?"
-PROMPT_FUEL: str = (
-    "Que tipo de combustível? "
-    "(Gasolina, Etanol, Diesel, Elétrico, Híbrido?)"
-)
+PROMPT_FUEL: str = "Que tipo de combustível? " "(Gasolina, Etanol, Diesel, Elétrico, Híbrido?)"
 PROMPT_PRICE_MAX: str = "Preço máximo que você deseja, digite somente os números, por favor. (somente números)?"
 
 FINAL_PROMPT_LIST_ALL: str = (
-    "Quer dar uma olhada em todos os nossos carros cadastrados? "
-    "Olha que vale a pena hein!..."
+    "Quer dar uma olhada em todos os nossos carros cadastrados? " "Olha que vale a pena hein!..."
 )
-FINAL_PROMPT_AGAIN: str = (
-    "Deseja fazer outra consulta com a gente? Vai ser rapidinho..."
-)
+FINAL_PROMPT_AGAIN: str = "Deseja fazer outra consulta com a gente? Vai ser rapidinho..."
 
-NO_MATCH_MSG: str = (
-    "\n😞 Desculpe, não encontrei nenhum veículo com esses critérios, "
-    "vamos procurar mais?\n"
-)
+NO_MATCH_MSG: str = "\n😞 Desculpe, não encontrei nenhum veículo com esses critérios, " "vamos procurar mais?\n"
 FOUND_MSG_TEMPLATE: str = "\n👍 Encontrei {count} veículo(s) compatível(eis):\n"
 EMPTY_LIST_MSG: str = "\nNenhum veículo cadastrado.\n"
 FULL_LIST_MSG_TEMPLATE: str = "\nListagem completa: {count} veículo(s) no sistema:\n"
@@ -44,7 +35,7 @@ FUEL_MAP = {
     "diesel": "Diesel",
     "elétrico": "Elétrico",
     "eletrico": "Elétrico",
-    "hibrido": "Flex",   # muitos usuários escrevem “hibrido”, dataset usa “Flex”
+    "hibrido": "Flex",  # muitos usuários escrevem “hibrido”, dataset usa “Flex”
     "híbrido": "Flex",
     "flex": "Flex",
 }

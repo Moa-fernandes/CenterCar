@@ -1,42 +1,46 @@
-import socket
-import threading
 import json
 import logging
-from typing import Dict, Any, List, Tuple
+import socket
+import threading
+from typing import Any, Dict, List, Tuple
 
-from center_car.config import HOST, PORTA
 from center_car.banco_dados import obter_sessao
+from center_car.config import HOST, PORTA
 from center_car.modelo_veiculo import Veiculo
 
 # Configuração
 BUFFER_SIZE: int = 64 * 1024  # 64 KiB
 EXPECTED_TOOL = "search_cars"
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 # ------------------------ Filtros / Util ------------------------ #
 
-def aplicar_filtros(query: Any, filtros: Dict[str, Any]) -> Any:
+
+def aplicar_filtros(query, filtros):
     """
-    Recebe Query de SQLAlchemy e um dict de filtros,
-    aplicam-se na consulta e retorna o query resultante.
+    Recebe um Query de SQLAlchemy e um dict de filtros,
+    aplica-os na consulta e retorna o query resultante.
     """
-    if 'marca' in filtros:
-        query = query.filter(Veiculo.marca == filtros['marca'])
-    if 'modelo' in filtros:
+    if "marca" in filtros:
+        query = query.filter(Veiculo.marca == filtros["marca"])
+
+    if "modelo" in filtros:
         termo = f"%{filtros['modelo']}%"
         query = query.filter(Veiculo.modelo.ilike(termo))
-    if 'ano_min' in filtros:
-        query = query.filter(Veiculo.ano >= filtros['ano_min'])
-    if 'ano_max' in filtros:
-        query = query.filter(Veiculo.ano <= filtros['ano_max'])
-    if 'tipo_combustivel' in filtros:
-        query = query.filter(Veiculo.tipo_combustivel == filtros['tipo_combustivel'])
-    if 'preco_max' in filtros:
-        query = query.filter(Veiculo.preco <= filtros['preco_max'])
+
+    if "ano_min" in filtros:
+        query = query.filter(Veiculo.ano >= filtros["ano_min"])
+
+    if "ano_max" in filtros:
+        query = query.filter(Veiculo.ano <= filtros["ano_max"])
+
+    if "tipo_combustivel" in filtros:
+        query = query.filter(Veiculo.tipo_combustivel == filtros["tipo_combustivel"])
+
+    if "preco_max" in filtros:
+        query = query.filter(Veiculo.preco <= filtros["preco_max"])
+
     return query
 
 
@@ -72,15 +76,23 @@ def _validar_args(f: Dict[str, Any]) -> Dict[str, Any]:
     Ignora o que não bater com o esperado.
     """
     out: Dict[str, Any] = {}
-    if isinstance(f.get("marca"), str): out["marca"] = f["marca"]
-    if isinstance(f.get("modelo"), str): out["modelo"] = f["modelo"]
-    if isinstance(f.get("tipo_combustivel"), str): out["tipo_combustivel"] = f["tipo_combustivel"]
-    if isinstance(f.get("ano_min"), int): out["ano_min"] = f["ano_min"]
-    if isinstance(f.get("ano_max"), int): out["ano_max"] = f["ano_max"]
-    if isinstance(f.get("preco_max"), (int, float)): out["preco_max"] = float(f["preco_max"])
+    if isinstance(f.get("marca"), str):
+        out["marca"] = f["marca"]
+    if isinstance(f.get("modelo"), str):
+        out["modelo"] = f["modelo"]
+    if isinstance(f.get("tipo_combustivel"), str):
+        out["tipo_combustivel"] = f["tipo_combustivel"]
+    if isinstance(f.get("ano_min"), int):
+        out["ano_min"] = f["ano_min"]
+    if isinstance(f.get("ano_max"), int):
+        out["ano_max"] = f["ano_max"]
+    if isinstance(f.get("preco_max"), (int, float)):
+        out["preco_max"] = float(f["preco_max"])
     return out
 
+
 # ------------------------ Handler da conexão ------------------------ #
+
 
 def trata_cliente(conn: socket.socket, addr: Tuple[str, int]) -> None:
     """
@@ -182,6 +194,7 @@ def trata_cliente(conn: socket.socket, addr: Tuple[str, int]) -> None:
 
 
 # ------------------------ Bootstrap do servidor ------------------------ #
+
 
 def iniciar_servidor() -> None:
     """Inicializa o socket servidor e aceita conexões em loop."""

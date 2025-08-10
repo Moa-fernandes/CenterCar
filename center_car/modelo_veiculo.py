@@ -4,7 +4,7 @@ Modelo SQLAlchemy para veículos, com mixin de __repr__ e constantes de tamanho
 para facilitar manutenção e evitar “números mágicos”.
 """
 
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Float, Integer, String
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -23,13 +23,11 @@ class ReprMixin:
     Mixin para gerar __repr__ baseado em campos declarados em _repr_fields.
     Cada classe filha deve definir _repr_fields como uma tupla de nomes de atributo.
     """
+
     _repr_fields: tuple[str, ...] = ()
 
     def __repr__(self) -> str:
-        field_strings = (
-            f"{name}={getattr(self, name)!r}"
-            for name in self._repr_fields
-        )
+        field_strings = (f"{name}={getattr(self, name)!r}" for name in self._repr_fields)
         return f"<{self.__class__.__name__}({', '.join(field_strings)})>"
 
 
@@ -37,7 +35,8 @@ class Veiculo(ReprMixin, Base):
     """
     Entidade Veículo, representa a tabela 'veiculos' no banco de dados.
     """
-    __tablename__ = 'veiculos'
+
+    __tablename__ = "veiculos"
 
     # Colunas
     id: int = Column(Integer, primary_key=True, autoincrement=True)
@@ -54,10 +53,10 @@ class Veiculo(ReprMixin, Base):
 
     # Campos incluídos no __repr__
     _repr_fields = (
-        'id',
-        'marca',
-        'modelo',
-        'ano',
-        'tipo_combustivel',
-        'preco',
+        "id",
+        "marca",
+        "modelo",
+        "ano",
+        "tipo_combustivel",
+        "preco",
     )

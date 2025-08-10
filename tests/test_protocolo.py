@@ -1,5 +1,6 @@
 import json
 import socket
+
 import pytest
 
 # Importa cliente e servidor considerando dois layouts possíveis do projeto
@@ -26,6 +27,7 @@ class FakeConn:
     Alimentamos com um único request (framed). Tudo que o servidor
     enviar via sendall() fica em .sent.
     """
+
     def __init__(self, framed_request: bytes):
         self._buf = memoryview(framed_request)
         self._pos = 0
@@ -40,7 +42,7 @@ class FakeConn:
         if self._pos >= len(self._buf):
             return b""
         end = min(self._pos + n, len(self._buf))
-        chunk = self._buf[self._pos:end].tobytes()
+        chunk = self._buf[self._pos : end].tobytes()
         self._pos = end
         return chunk
 
@@ -57,6 +59,7 @@ class FakeConn:
 
 class _V:
     """Objeto veículo mínimo para os testes (atributos usados pelo servidor)."""
+
     def __init__(self, **k):
         self.id = k.get("id", 1)
         self.marca = k.get("marca", "Jeep")
@@ -82,8 +85,10 @@ class FakeQuery:
 class FakeSession:
     def __init__(self, results):
         self._results = results
+
     def query(self, _model):
         return FakeQuery(self._results)
+
     def close(self):
         pass
 
@@ -104,12 +109,24 @@ def test_cliente_envia_envelope(monkeypatch):
         def __init__(self):
             self.sent = b""
             self._resp = [tamanho, data]
-        def settimeout(self, t): pass
-        def connect(self, addr): pass
-        def sendall(self, b): self.sent += b
-        def recv(self, n): return self._resp.pop(0) if self._resp else b""
-        def __enter__(self): return self
-        def __exit__(self, *exc): pass
+
+        def settimeout(self, t):
+            pass
+
+        def connect(self, addr):
+            pass
+
+        def sendall(self, b):
+            self.sent += b
+
+        def recv(self, n):
+            return self._resp.pop(0) if self._resp else b""
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            pass
 
     def factory(*a, **k):
         s = FakeSocket()

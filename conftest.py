@@ -1,7 +1,7 @@
 # conftest.py
 
-import sys
 import os
+import sys
 
 # adiciona a raiz do projeto ao path de importação
 ROOT = os.path.abspath(os.path.dirname(__file__))
