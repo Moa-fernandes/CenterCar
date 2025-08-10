@@ -158,37 +158,7 @@ Roda assim:
 
 Se passar sem erros, tudo verdinho?!, tá tranquilo. rsrs
 
-## Estrutura do projeto
 
-CenterCar/
-├── center\_car/
-│   ├── banco\_dados.py           <- conexão e criação de tabelas
-│   ├── config.py                <- host, porta e caminho do DB (fonte única)
-│   ├── gerar\_dados\_ficticios.py <- script com Faker para popular DB
-│   └── modelo\_veiculo.py        <- modelo SQLAlchemy do Veiculo
-│
-├── servidor/
-│   └── servidor\_mcp.py          <- servidor TCP + filtro em SQLAlchemy (MCP envelope + legado)
-│
-├── cliente/
-│   ├── cliente\_mcp.py           <- lógica de socket + JSON (envelope MCP com fallback)
-│   └── agente\_terminal.py       <- interface “conversa solta” no terminal
-│
-├── docs/
-│   ├── protocolo-mcp.md         <- contrato explicado
-│   └── schemas/
-│       ├── request.json
-│       └── response.json
-│
-├── tests/
-│   ├── test\_fluxo.py
-│   ├── test\_agente.py
-│   └── test\_protocolo.py
-│
-├── centercar.db                 <- banco SQLite (não comitar)
-├── principal.py                 <- script unificado (servidor/cliente/tudo)
-├── README.md
-└── requirements.txt
 
 ## deu vontade de fazer!
 
@@ -200,5 +170,6 @@ CenterCar/
 **# **Mas tá aí, muito obrigado pela oportunidade e espero que gostem.** #**
 
 ## ***© 2025 Moa Fernandes. All rights reserved.***
+
 
 
