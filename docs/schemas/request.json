@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://centercar.example/schemas/request.json",
+  "title": "CenterCar MCP Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tool", "args"],
+  "properties": {
+    "tool": {
+      "type": "string",
+      "const": "search_cars",
+      "description": "Nome da ferramenta MCP. Neste projeto: 'search_cars'."
+    },
+    "args": {
+      "type": "object",
+      "description": "Filtros de busca (todos opcionais).",
+      "additionalProperties": false,
+      "properties": {
+        "marca": { "type": "string", "minLength": 1 },
+        "modelo": { "type": "string", "minLength": 1, "description": "Busca parcial (ILIKE '%modelo%')." },
+        "tipo_combustivel": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Valores usuais: Gasolina, Etanol, Diesel, Elétrico, Flex."
+        },
+        "ano_min": { "type": "integer", "minimum": 1900, "maximum": 2100 },
+        "ano_max": { "type": "integer", "minimum": 1900, "maximum": 2100 },
+        "preco_max": { "type": "number", "minimum": 0 }
+      }
+    }
+  },
+  "examples": [
+    {
+      "tool": "search_cars",
+      "args": { "marca": "Jeep", "modelo": "Ren", "ano_min": 2020, "preco_max": 120000 }
+    }
+  ]
+}

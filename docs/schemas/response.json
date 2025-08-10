@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://centercar.example/schemas/response.json",
+  "title": "CenterCar MCP Response",
+  "type": "object",
+  "required": ["ok"],
+  "additionalProperties": false,
+  "properties": {
+    "ok": { "type": "boolean" },
+    "result": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Veiculo" }
+    },
+    "error": {
+      "type": "object",
+      "required": ["code", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": ["INVALID_HEADER", "INVALID_JSON", "INVALID_REQUEST", "UNKNOWN_TOOL", "SERVER_ERROR"]
+        },
+        "message": { "type": "string" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "ok": { "const": true } } },
+      "then": {
+        "required": ["ok", "result"],
+        "properties": { "error": false }
+      }
+    },
+    {
+      "if": { "properties": { "ok": { "const": false } } },
+      "then": {
+        "required": ["ok", "error"],
+        "properties": { "result": false }
+      }
+    }
+  ],
+  "$defs": {
+    "Veiculo": {
+      "type": "object",
+      "required": ["id", "marca", "modelo", "ano", "tipo_combustivel", "cor", "quilometragem", "numero_portas", "transmissao", "preco"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "integer" },
+        "marca": { "type": "string" },
+        "modelo": { "type": "string" },
+        "ano": { "type": "integer" },
+        "tipo_combustivel": { "type": "string" },
+        "cor": { "type": "string" },
+        "quilometragem": { "type": "number" },
+        "numero_portas": { "type": "integer" },
+        "transmissao": { "type": "string" },
+        "preco": { "type": "number" }
+      }
+    }
+  },
+  "examples": [
+    { "ok": true, "result": [ { "id": 1, "marca": "Jeep", "modelo": "Renegade", "ano": 2021, "tipo_combustivel": "Etanol", "cor": "Azul", "quilometragem": 12345.6, "numero_portas": 4, "transmissao": "Automático", "preco": 98765.43 } ] },
+    { "ok": false, "error": { "code": "INVALID_REQUEST", "message": "Envelope deve conter 'tool' e 'args'" } }
+  ]
+}
